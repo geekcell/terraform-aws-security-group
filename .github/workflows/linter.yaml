@@ -96,6 +96,7 @@ jobs:
   ###########
   tf-docs:
     name: Docs
+    if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
       ############################
@@ -110,5 +111,6 @@ jobs:
       - name: Terraform docs
         uses: terraform-docs/gh-actions@v1.0.0
         with:
+          ref: ${{ github.event.pull_request.head.ref }}
           config-file: .terraform-docs.yml
-          fail-on-diff: true
+          git-push: true
