@@ -3,7 +3,6 @@
  *
  * Terraform module which creates a Security Group with rules attached to it.
  */
-
 resource "aws_security_group" "main" {
   name_prefix            = "${var.name}-"
   description            = coalesce(var.description, "Security Group for ${var.name}")
@@ -16,6 +15,7 @@ resource "aws_security_group" "main" {
 resource "aws_security_group_rule" "main_ingress" {
   for_each = { for rule in var.ingress_rules : "ingress-${rule.protocol}-${coalesce(rule.port, rule.from_port)}-${coalesce(rule.port, rule.to_port)}" => rule }
 
+  description       = coalesce(each.value.description, "Allow ingress for ${each.value.protocol}-${coalesce(rule.port, rule.from_port)}")
   security_group_id = aws_security_group.main.id
   type              = "ingress"
 
@@ -31,6 +31,7 @@ resource "aws_security_group_rule" "main_ingress" {
 resource "aws_security_group_rule" "main_egress" {
   for_each = { for rule in var.egress_rules : "egress-${rule.protocol}-${coalesce(rule.port, rule.from_port)}-${coalesce(rule.port, rule.to_port)}" => rule }
 
+  description       = coalesce(each.value.description, "Allow egress for ${each.value.protocol}-${coalesce(rule.port, rule.from_port)}")
   security_group_id = aws_security_group.main.id
   type              = "egress"
 
