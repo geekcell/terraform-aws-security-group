@@ -2,6 +2,10 @@ formatter: "md table"
 header-from: main.tf
 
 content: |-
+  {{ include "docs/logo.md" }}
+
+  {{ include "docs/badges.md" }}
+
   {{ .Header }}
 
   {{ .Inputs }}
@@ -28,3 +32,6 @@ output:
     <!-- BEGIN_TF_DOCS -->
     {{ .Content }}
     <!-- END_TF_DOCS -->
+
+settings:
+  lockfile: false
