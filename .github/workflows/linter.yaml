@@ -97,6 +97,10 @@ jobs:
   tf-docs:
     name: Docs
     if: ${{ github.event_name == 'pull_request' }}
+    permissions:
+      contents: write
+      pull-requests: write
+
     runs-on: ubuntu-latest
     steps:
       ############################
