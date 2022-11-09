@@ -34,7 +34,7 @@ jobs:
   # TF fmt #
   ##########
   tf-fmt:
-    name: Terraform fmt
+    name: FMT
     runs-on: ubuntu-latest
     steps:
       ############################
@@ -62,11 +62,14 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3.1.0
 
-      ##############
-      # Install TF #
-      ##############
-      - name: Install Terraform
-        uses: hashicorp/setup-terraform@v2.0.3
+      #################
+      # Cache plugins #
+      #################
+      - name: Cache plugin dir
+        uses: actions/cache@v3.0.11
+        with:
+          path: ~/.tflint.d/plugins
+          key: ${{ matrix.os }}-tflint-${{ hashFiles('.tflint.hcl') }}
 
       ######################
       # Install TF Modules #
@@ -74,22 +77,25 @@ jobs:
       - name: Install Terraform modules
         run: terraform get
 
+      ################
+      # Setup TFLint #
+      ################
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v2
+        with:
+          tflint_version: v0.42.2
+
       ##############
       # Run TFLint #
       ##############
-      - name: Run tflint
-        uses: reviewdog/action-tflint@v1.17.1
-        with:
-          github_token: ${{ secrets.github_token }}
-          filter_mode: nofilter
-          level: warning
-          fail_on_error: true
+      - name: Run TFLint
+        run: tflint -f compact
 
   ###########
   # TF docs #
   ###########
   tf-docs:
-    name: Terraform Docs
+    name: Docs
     runs-on: ubuntu-latest
     steps:
       ############################

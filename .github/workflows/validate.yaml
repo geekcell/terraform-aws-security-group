@@ -30,7 +30,7 @@ jobs:
   # TF validate #
   ###############
   tf-validate:
-    name: Terraform validate
+    name: Validate
     runs-on: ubuntu-latest
     steps:
       ############################
@@ -43,4 +43,4 @@ jobs:
       # Run Terraform validate #
       ##########################
       - name: Terraform validate
-        uses: dflook/terraform-fmt-check@v1.29.1
+        uses: dflook/terraform-validate@v1.29.1
