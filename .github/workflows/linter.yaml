@@ -71,12 +71,6 @@ jobs:
           path: ~/.tflint.d/plugins
           key: ${{ matrix.os }}-tflint-${{ hashFiles('.tflint.hcl') }}
 
-      ######################
-      # Install TF Modules #
-      ######################
-      - name: Install Terraform modules
-        run: terraform get
-
       ################
       # Setup TFLint #
       ################
@@ -84,6 +78,12 @@ jobs:
         uses: terraform-linters/setup-tflint@v2
         with:
           tflint_version: v0.42.2
+
+      ###############
+      # Init TFLint #
+      ###############
+      - name: Run TFLint
+        run: tflint --init
 
       ##############
       # Run TFLint #
