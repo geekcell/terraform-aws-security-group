@@ -82,7 +82,7 @@ jobs:
       ###############
       # Init TFLint #
       ###############
-      - name: Run TFLint
+      - name: Init TFLint
         run: tflint --init
 
       ##############

@@ -7,6 +7,11 @@ It's 100% Open Source and licensed under the [APACHE2](LICENSE).
 
 Terraform module which creates a Security Group with rules attached to it.
 
+[![License](https://img.shields.io/github/license/geekcell/terraform-aws-security-group)](https://github.com/geekcell/terraform-aws-security-group/blob/master/LICENSE)
+[![Release](https://github.com/geekcell/terraform-aws-security-group/workflows/release/badge.svg)](https://github.com/terraform-aws-security-group/actions/workflows/release.yaml)
+[![GitHub release (latest tag)](https://img.shields.io/github/v/release/geekcell/terraform-aws-security-group?logo=github&sort=semver)](https://github.com/geekcell/terraform-aws-security-group/releases)
+[![Validate](https://github.com/geekcell/terraform-aws-security-group/actions/workflows/validate.yaml/badge.svg)](https://github.com/geekcell/terraform-aws-security-group/actions/workflows/validate.yaml)
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
