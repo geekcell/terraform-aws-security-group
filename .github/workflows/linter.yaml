@@ -1,0 +1,108 @@
+---
+################
+## Run linter ##
+################
+
+#
+# Documentation:
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions
+#
+
+name: Lint
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+##########################
+# Prevent duplicate jobs #
+##########################
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+###############
+# Run the job #
+###############
+jobs:
+  ##########
+  # TF fmt #
+  ##########
+  tf-fmt:
+    name: Terraform fmt
+    runs-on: ubuntu-latest
+    steps:
+      ############################
+      # Checkout the source code #
+      ############################
+      - name: Checkout Code
+        uses: actions/checkout@v3.1.0
+
+      #####################
+      # Run Terraform fmt #
+      #####################
+      - name: Terraform fmt
+        uses: dflook/terraform-fmt-check@v1.29.1
+
+  ##########
+  # TFLint #
+  ##########
+  tf-lint:
+    name: TFLint
+    runs-on: ubuntu-latest
+    steps:
+      ############################
+      # Checkout the source code #
+      ############################
+      - name: Checkout Code
+        uses: actions/checkout@v3.1.0
+
+      ##############
+      # Install TF #
+      ##############
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2.0.3
+
+      ######################
+      # Install TF Modules #
+      ######################
+      - name: Install Terraform modules
+        run: terraform get
+
+      ##############
+      # Run TFLint #
+      ##############
+      - name: Run tflint
+        uses: reviewdog/action-tflint@v1.17.1
+        with:
+          github_token: ${{ secrets.github_token }}
+          filter_mode: nofilter
+          level: warning
+          fail_on_error: true
+
+  ###########
+  # TF docs #
+  ###########
+  tf-docs:
+    name: Terraform Docs
+    runs-on: ubuntu-latest
+    steps:
+      ############################
+      # Checkout the source code #
+      ############################
+      - name: Checkout Code
+        uses: actions/checkout@v3.1.0
+
+      ####################
+      # Update README.md #
+      ####################
+      - name: Terraform docs
+        uses: terraform-docs/gh-actions@v1.0.0
+        with:
+          config-file: .terraform-docs.yml
+          git-push: true

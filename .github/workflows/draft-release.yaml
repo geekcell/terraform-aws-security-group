@@ -1,0 +1,38 @@
+---
+####################################
+## Draft releases on Push to main ##
+####################################
+
+#
+# Documentation:
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions
+#
+
+name: Release Drafter
+
+#########################
+# Start on push to main #
+#########################
+on:
+  push:
+    branches: [ main ]
+
+#################
+# Start the job #
+#################
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  ###############
+  # Steps below #
+  ###############
+  update-release-draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # Drafts your next Release notes as Pull Requests are merged into "master"
+      - uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
