@@ -104,6 +104,8 @@ jobs:
       ############################
       - name: Checkout Code
         uses: actions/checkout@v3.1.0
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
 
       ####################
       # Update README.md #
