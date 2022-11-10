@@ -17,4 +17,5 @@
 
 ### Reviewing Maintainer
 - [ ] Label as `breaking` if this is a large fundamental change
-- [ ] Label as either `automation`, `bug`, `documentation`, `enhancement`, or `performance`
+- [ ] Label as either `automation`, `bug`, `documentation`, or `enhancement`
+- [ ] Label as `bump:patch`, `bump:minor`, or `bump:major` if this PR should create a new release
