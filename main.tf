@@ -1,9 +1,16 @@
 /**
  * # Terraform AWS Security Group Module
  *
- * Terraform module which creates a Security Group with rules attached to it.
+ * Terraform module which creates a Security Group and rules ingress or egress
+ * rules that belong to it. The focus on this module lies within it's simplicity
+ * by providing default values that should make sense for most use cases.
+ *
+ * It also makes use of the latest Terraform features like `optional` to provide
+ * minimal required inputs and complexity.
  */
 resource "aws_security_group" "main" {
+  #bridgecrew:skip=BC_AWS_NETWORKING_51:This module create Security Groups only. The attachment has to be done in the parent module.
+
   name_prefix            = "${var.name}-"
   description            = coalesce(var.description, "Security Group for ${var.name}")
   vpc_id                 = var.vpc_id

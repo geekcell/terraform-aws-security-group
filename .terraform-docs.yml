@@ -4,9 +4,9 @@ header-from: main.tf
 content: |-
   {{ include "docs/logo.md" }}
 
-  {{ include "docs/badges.md" }}
-
   {{ .Header }}
+
+  {{ include "docs/badges.md" }}
 
   {{ .Inputs }}
 

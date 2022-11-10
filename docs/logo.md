@@ -1,3 +1,3 @@
-![Geek Cell GmbH](https://uploads-ssl.webflow.com/61d1d8051145e270217e36a1/61d205833226d492ab02ad46_Group%202.svg "Geek Cell GmbH")
+[![Geek Cell GmbH](https://raw.githubusercontent.com/geekcell/template-terraform-module/main/docs/assets/logo.svg)](https://www.geekcell.io/)
 
 It's 100% Open Source and licensed under the [APACHE2](LICENSE).

@@ -1,12 +1,21 @@
 <!-- BEGIN_TF_DOCS -->
-![Geek Cell GmbH](https://uploads-ssl.webflow.com/61d1d8051145e270217e36a1/61d205833226d492ab02ad46_Group%202.svg "Geek Cell GmbH")
+[![Geek Cell GmbH](https://raw.githubusercontent.com/geekcell/template-terraform-module/main/docs/assets/logo.svg)](https://www.geekcell.io/)
 
 It's 100% Open Source and licensed under the [APACHE2](LICENSE).
 
+# Terraform AWS Security Group Module
+
+Terraform module which creates a Security Group and rules ingress or egress
+rules that belong to it. The focus on this module lies within it's simplicity
+by providing default values that should make sense for most use cases.
+
+It also makes use of the latest Terraform features like `optional` to provide
+minimal required inputs and complexity.
+
 ### Code Quality
 [![License](https://img.shields.io/github/license/geekcell/terraform-aws-security-group)](https://github.com/geekcell/terraform-aws-security-group/blob/master/LICENSE)
-[![Release](https://github.com/geekcell/terraform-aws-security-group/actions/workflows/release.yaml/badge.svg)](https://github.com/geekcell/terraform-aws-security-group/actions/workflows/release.yaml)
 [![GitHub release (latest tag)](https://img.shields.io/github/v/release/geekcell/terraform-aws-security-group?logo=github&sort=semver)](https://github.com/geekcell/terraform-aws-security-group/releases)
+[![Release](https://github.com/geekcell/terraform-aws-security-group/actions/workflows/release.yaml/badge.svg)](https://github.com/geekcell/terraform-aws-security-group/actions/workflows/release.yaml)
 [![Validate](https://github.com/geekcell/terraform-aws-security-group/actions/workflows/validate.yaml/badge.svg)](https://github.com/geekcell/terraform-aws-security-group/actions/workflows/validate.yaml)
 [![Lint](https://github.com/geekcell/terraform-aws-security-group/actions/workflows/linter.yaml/badge.svg)](https://github.com/geekcell/terraform-aws-security-group/actions/workflows/linter.yaml)
 
@@ -35,10 +44,6 @@ It's 100% Open Source and licensed under the [APACHE2](LICENSE).
 [![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/geekcell/terraform-aws-security-group/hipaa)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=geekcell%2Fterraform-aws-security-group&benchmark=HIPAA)
 [![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/geekcell/terraform-aws-security-group/fedramp_moderate)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=geekcell%2Fterraform-aws-security-group&benchmark=FEDRAMP+%28MODERATE%29)
 
-# Terraform AWS Security Group Module
-
-Terraform module which creates a Security Group with rules attached to it.
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -65,9 +70,9 @@ Terraform module which creates a Security Group with rules attached to it.
 
 ## Resources
 
-- resource.aws_security_group.main (main.tf#6)
-- resource.aws_security_group_rule.main_egress (main.tf#31)
-- resource.aws_security_group_rule.main_ingress (main.tf#15)
+- resource.aws_security_group.main (main.tf#11)
+- resource.aws_security_group_rule.main_egress (main.tf#38)
+- resource.aws_security_group_rule.main_ingress (main.tf#22)
 
 # Examples
 ### Full
