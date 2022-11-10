@@ -1,17 +1,6 @@
 <!-- BEGIN_TF_DOCS -->
 [![Geek Cell GmbH](https://raw.githubusercontent.com/geekcell/template-terraform-module/main/docs/assets/logo.svg)](https://www.geekcell.io/)
 
-It's 100% Open Source and licensed under the [APACHE2](LICENSE).
-
-# Terraform AWS Security Group Module
-
-Terraform module which creates a Security Group and rules ingress or egress
-rules that belong to it. The focus on this module lies within it's simplicity
-by providing default values that should make sense for most use cases.
-
-It also makes use of the latest Terraform features like `optional` to provide
-minimal required inputs and complexity.
-
 ### Code Quality
 [![License](https://img.shields.io/github/license/geekcell/terraform-aws-security-group)](https://github.com/geekcell/terraform-aws-security-group/blob/master/LICENSE)
 [![GitHub release (latest tag)](https://img.shields.io/github/v/release/geekcell/terraform-aws-security-group?logo=github&sort=semver)](https://github.com/geekcell/terraform-aws-security-group/releases)
@@ -43,6 +32,15 @@ minimal required inputs and complexity.
 [![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/geekcell/terraform-aws-security-group/nist)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=geekcell%2Fterraform-aws-security-group&benchmark=NIST-800-53)
 [![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/geekcell/terraform-aws-security-group/hipaa)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=geekcell%2Fterraform-aws-security-group&benchmark=HIPAA)
 [![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/geekcell/terraform-aws-security-group/fedramp_moderate)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=geekcell%2Fterraform-aws-security-group&benchmark=FEDRAMP+%28MODERATE%29)
+
+# Terraform AWS Security Group Module
+
+Terraform module which creates a Security Group and rules ingress or egress
+rules that belong to it. The focus on this module lies within it's simplicity
+by providing default values that should make sense for most use cases.
+
+It also makes use of the latest Terraform features like `optional` to provide
+minimal required inputs and complexity.
 
 ## Inputs
 
