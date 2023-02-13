@@ -33,14 +33,23 @@
 [![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/geekcell/terraform-aws-security-group/hipaa)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=geekcell%2Fterraform-aws-security-group&benchmark=HIPAA)
 [![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/geekcell/terraform-aws-security-group/fedramp_moderate)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=geekcell%2Fterraform-aws-security-group&benchmark=FEDRAMP+%28MODERATE%29)
 
-# Terraform AWS Security Group Module
+# Terraform AWS Security Group
 
-Terraform module which creates a Security Group and rules ingress or egress
-rules that belong to it. The focus on this module lies within it's simplicity
-by providing default values that should make sense for most use cases.
+Introducing the AWS Security Group Terraform Module, a simple and easy-to-use solution for creating and managing
+your security groups within Amazon Web Services (AWS). This module has been designed with ease of use in mind,
+providing you with a straightforward way to create and manage your security groups.
 
-It also makes use of the latest Terraform features like `optional` to provide
-minimal required inputs and complexity.
+Our team of experts has years of experience working with AWS security groups and has a deep understanding of the
+best practices and configurations. By using this Terraform module, you can be sure that your security groups are
+created and managed in a secure and efficient manner.
+
+This module offers a preconfigured solution for creating security groups and the ingress or egress rules that belong
+to them, saving you time and effort in the process. Whether you're looking to secure your resources or to limit the
+access to your applications, this module has you covered.
+
+So, if you're looking for a convenient and reliable solution for creating and managing your security groups within
+AWS, look no further than the AWS Security Group Terraform Module. Give it a try and see how easy it is to create
+and manage your security groups!
 
 ## Inputs
 
@@ -68,14 +77,14 @@ minimal required inputs and complexity.
 
 ## Resources
 
-- resource.aws_security_group.main (main.tf#11)
-- resource.aws_security_group_rule.main_egress (main.tf#38)
-- resource.aws_security_group_rule.main_ingress (main.tf#22)
+- resource.aws_security_group.main (main.tf#20)
+- resource.aws_security_group_rule.main_egress (main.tf#47)
+- resource.aws_security_group_rule.main_ingress (main.tf#31)
 
 # Examples
 ### Full
 ```hcl
-module "example" {
+module "full" {
   source = "../../"
 
   vpc_id      = "vpc-12345678910"
