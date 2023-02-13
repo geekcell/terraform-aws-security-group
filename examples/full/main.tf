@@ -1,4 +1,4 @@
-module "example" {
+module "full" {
   source = "../../"
 
   vpc_id      = "vpc-12345678910"
