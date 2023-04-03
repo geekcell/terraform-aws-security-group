@@ -59,6 +59,7 @@ and manage your security groups!
 | <a name="input_egress_rules"></a> [egress\_rules](#input\_egress\_rules) | Egress rules to add to the Security Group. See examples for usage. | <pre>list(object({<br>    protocol    = string<br>    description = optional(string)<br><br>    port      = optional(number)<br>    to_port   = optional(number)<br>    from_port = optional(number)<br><br>    cidr_blocks              = optional(list(string))<br>    source_security_group_id = optional(string)<br><br>    self = optional(bool)<br>  }))</pre> | `[]` | no |
 | <a name="input_ingress_rules"></a> [ingress\_rules](#input\_ingress\_rules) | Ingress rules to add to the Security Group. See examples for usage. | <pre>list(object({<br>    protocol    = string<br>    description = optional(string)<br><br>    port      = optional(number)<br>    to_port   = optional(number)<br>    from_port = optional(number)<br><br>    cidr_blocks              = optional(list(string))<br>    source_security_group_id = optional(string)<br><br>    self = optional(bool)<br>  }))</pre> | `[]` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the Security Group and Prefix. | `string` | n/a | yes |
+| <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Whether to use the name as prefix or regular name. | `bool` | `true` | no |
 | <a name="input_revoke_rules_on_delete"></a> [revoke\_rules\_on\_delete](#input\_revoke\_rules\_on\_delete) | Instruct Terraform to revoke all of the Security Groups attached ingress and egress rules before deleting the rule itself. This is normally not needed. | `bool` | `false` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to add to the Security Group. | `map(any)` | `{}` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The VPC ID where resources are created. | `string` | n/a | yes |
@@ -77,9 +78,9 @@ and manage your security groups!
 
 ## Resources
 
-- resource.aws_security_group.main (main.tf#20)
-- resource.aws_security_group_rule.main_egress (main.tf#47)
-- resource.aws_security_group_rule.main_ingress (main.tf#31)
+- resource.aws_security_group.main (main.tf#42)
+- resource.aws_security_group_rule.main_egress (main.tf#70)
+- resource.aws_security_group_rule.main_ingress (main.tf#54)
 
 # Examples
 ### Full
@@ -104,7 +105,7 @@ module "full" {
       from_port   = 3306
       to_port     = 54321
       protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = ["127.0.0.0/8", "10.0.0.0/8"]
     },
 
     # Allow other SG instead of CIDR
@@ -112,11 +113,45 @@ module "full" {
       port                     = 3306
       protocol                 = "udp"
       source_security_group_id = "sg-1234567891011"
+    },
+
+    # Using self
+    {
+      port     = 3306
+      protocol = "udp"
+      self     = true
     }
   ]
 
   egress_rules = [
-    # Same arguments as `ingress_rules`
+    # To/From ports are the same
+    {
+      port        = 3306
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    },
+
+    # Different To/From ports
+    {
+      from_port   = 3306
+      to_port     = 54321
+      protocol    = "tcp"
+      cidr_blocks = ["127.0.0.0/8", "10.0.0.0/8"]
+    },
+
+    # Allow other SG instead of CIDR
+    {
+      port                     = 3306
+      protocol                 = "udp"
+      source_security_group_id = "sg-1234567891011"
+    },
+
+    # Using self
+    {
+      port     = 3306
+      protocol = "udp"
+      self     = true
+    }
   ]
 }
 ```

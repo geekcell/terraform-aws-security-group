@@ -17,10 +17,33 @@
  * AWS, look no further than the AWS Security Group Terraform Module. Give it a try and see how easy it is to create
  * and manage your security groups!
  */
+locals {
+  ingress_rules = {
+    for rule in var.ingress_rules : format(
+      "ingress-%s-%s-%s-%s",
+      rule.protocol,
+      coalesce(rule.port, rule.from_port),
+      coalesce(rule.port, rule.to_port),
+      coalesce(rule.source_security_group_id, join("_", coalesce(rule.cidr_blocks, [])), "self")
+    ) => rule
+  }
+
+  egress_rules = {
+    for rule in var.egress_rules : format(
+      "egress-%s-%s-%s-%s",
+      rule.protocol,
+      coalesce(rule.port, rule.from_port),
+      coalesce(rule.port, rule.to_port),
+      coalesce(rule.source_security_group_id, join("_", coalesce(rule.cidr_blocks, [])), "self")
+    ) => rule
+  }
+}
+
 resource "aws_security_group" "main" {
   #bridgecrew:skip=BC_AWS_NETWORKING_51:This module create Security Groups only. The attachment has to be done in the parent module.
 
-  name_prefix            = "${var.name}-"
+  name                   = var.name_prefix ? null : var.name
+  name_prefix            = var.name_prefix ? "${var.name}-" : null
   description            = coalesce(var.description, "Security Group for ${var.name}")
   vpc_id                 = var.vpc_id
   revoke_rules_on_delete = var.revoke_rules_on_delete
@@ -29,7 +52,7 @@ resource "aws_security_group" "main" {
 }
 
 resource "aws_security_group_rule" "main_ingress" {
-  for_each = { for rule in var.ingress_rules : "ingress-${rule.protocol}-${coalesce(rule.port, rule.from_port)}-${coalesce(rule.port, rule.to_port)}" => rule }
+  for_each = local.ingress_rules
 
   description       = coalesce(each.value.description, "Allow ingress for ${each.value.protocol}-${coalesce(each.value.port, each.value.from_port)}")
   security_group_id = aws_security_group.main.id
@@ -45,7 +68,7 @@ resource "aws_security_group_rule" "main_ingress" {
 }
 
 resource "aws_security_group_rule" "main_egress" {
-  for_each = { for rule in var.egress_rules : "egress-${rule.protocol}-${coalesce(rule.port, rule.from_port)}-${coalesce(rule.port, rule.to_port)}" => rule }
+  for_each = local.egress_rules
 
   description       = coalesce(each.value.description, "Allow egress for ${each.value.protocol}-${coalesce(each.value.port, each.value.from_port)}")
   security_group_id = aws_security_group.main.id

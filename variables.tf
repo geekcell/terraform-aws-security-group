@@ -4,6 +4,12 @@ variable "name" {
   type        = string
 }
 
+variable "name_prefix" {
+  description = "Whether to use the name as prefix or regular name."
+  default     = true
+  type        = bool
+}
+
 variable "description" {
   description = "Description of the Security Group."
   default     = null
@@ -46,17 +52,29 @@ variable "ingress_rules" {
   }))
 
   validation {
-    condition     = alltrue([for rule in var.ingress_rules : false if rule.cidr_blocks != null && rule.source_security_group_id != null])
+    condition = alltrue([
+      for rule in var.ingress_rules :
+      false
+      if rule.cidr_blocks != null && rule.source_security_group_id != null
+    ])
     error_message = "A rule can either have 'cidr_blocks' or 'source_security_group_id' but not both."
   }
 
   validation {
-    condition     = alltrue([for rule in var.ingress_rules : false if rule.port != null && (rule.to_port != null || rule.from_port != null)])
+    condition = alltrue([
+      for rule in var.ingress_rules :
+      false
+      if rule.port != null && (rule.to_port != null || rule.from_port != null)
+    ])
     error_message = "A rule can either have 'port' or 'to_port'|'from_port' but not both."
   }
 
   validation {
-    condition     = alltrue([for rule in var.ingress_rules : false if rule.self != null && (rule.cidr_blocks != null || rule.source_security_group_id != null)])
+    condition = alltrue([
+      for rule in var.ingress_rules :
+      false
+      if rule.self != null && (rule.cidr_blocks != null || rule.source_security_group_id != null)
+    ])
     error_message = "A rule can either have 'self' or 'cidr_blocks'|'source_security_group_id' but not both."
   }
 }
@@ -79,17 +97,29 @@ variable "egress_rules" {
   }))
 
   validation {
-    condition     = alltrue([for rule in var.egress_rules : false if rule.cidr_blocks != null && rule.source_security_group_id != null])
+    condition = alltrue([
+      for rule in var.egress_rules :
+      false
+      if rule.cidr_blocks != null && rule.source_security_group_id != null
+    ])
     error_message = "A rule can either have 'cidr_blocks' or 'source_security_group_id' but not both."
   }
 
   validation {
-    condition     = alltrue([for rule in var.egress_rules : false if rule.port != null && (rule.to_port != null || rule.from_port != null)])
+    condition = alltrue([
+      for rule in var.egress_rules :
+      false
+      if rule.port != null && (rule.to_port != null || rule.from_port != null)
+    ])
     error_message = "A rule can either have 'port' or 'to_port'|'from_port' but not both."
   }
 
   validation {
-    condition     = alltrue([for rule in var.egress_rules : false if rule.self != null && (rule.cidr_blocks != null || rule.source_security_group_id != null)])
+    condition = alltrue([
+      for rule in var.egress_rules :
+      false
+      if rule.self != null && (rule.cidr_blocks != null || rule.source_security_group_id != null)
+    ])
     error_message = "A rule can either have 'self' or 'cidr_blocks'|'source_security_group_id' but not both."
   }
 }
