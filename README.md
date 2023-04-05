@@ -78,9 +78,9 @@ and manage your security groups!
 
 ## Resources
 
-- resource.aws_security_group.main (main.tf#42)
-- resource.aws_security_group_rule.main_egress (main.tf#70)
-- resource.aws_security_group_rule.main_ingress (main.tf#54)
+- resource.aws_security_group.main (main.tf#20)
+- resource.aws_security_group_rule.main_egress (main.tf#48)
+- resource.aws_security_group_rule.main_ingress (main.tf#32)
 
 # Examples
 ### Full
