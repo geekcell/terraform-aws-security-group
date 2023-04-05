@@ -30,15 +30,7 @@ resource "aws_security_group" "main" {
 }
 
 resource "aws_security_group_rule" "main_ingress" {
-  for_each = {
-    for rule in var.ingress_rules : format(
-      "ingress-%s-%s-%s-%s",
-      rule.protocol,
-      coalesce(rule.port, rule.from_port),
-      coalesce(rule.port, rule.to_port),
-      coalesce(rule.source_security_group_id, join("_", coalesce(rule.cidr_blocks, [])), "self")
-    ) => rule
-  }
+  for_each = { for index, rule in var.ingress_rules : index => rule }
 
   description       = coalesce(each.value.description, "Allow ingress for ${each.value.protocol}-${coalesce(each.value.port, each.value.from_port)}")
   security_group_id = aws_security_group.main.id
@@ -54,15 +46,7 @@ resource "aws_security_group_rule" "main_ingress" {
 }
 
 resource "aws_security_group_rule" "main_egress" {
-  for_each = {
-    for rule in var.egress_rules : format(
-      "egress-%s-%s-%s-%s",
-      rule.protocol,
-      coalesce(rule.port, rule.from_port),
-      coalesce(rule.port, rule.to_port),
-      coalesce(rule.source_security_group_id, join("_", coalesce(rule.cidr_blocks, [])), "self")
-    ) => rule
-  }
+  for_each = { for index, rule in var.egress_rules : index => rule }
 
   description       = coalesce(each.value.description, "Allow egress for ${each.value.protocol}-${coalesce(each.value.port, each.value.from_port)}")
   security_group_id = aws_security_group.main.id
