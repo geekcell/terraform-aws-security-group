@@ -49,10 +49,12 @@ func TestTerraformFull(t *testing.T) {
 	EnsureIpPermission(t, sgOutput.SecurityGroups[0].IpPermissions, 3306, 3306, "tcp", []string{"0.0.0.0/0"}, "")
 	EnsureIpPermission(t, sgOutput.SecurityGroups[0].IpPermissions, 3306, 54321, "tcp", []string{"127.0.0.0/8", "10.0.0.0/8"}, "")
 	EnsureIpPermission(t, sgOutput.SecurityGroups[0].IpPermissions, 3306, 3306, "udp", []string{}, source_security_group)
+	EnsureIpPermission(t, sgOutput.SecurityGroups[0].IpPermissions, 3306, 3306, "udp", []string{}, security_group_id)
 
 	EnsureIpPermission(t, sgOutput.SecurityGroups[0].IpPermissionsEgress, 3306, 3306, "tcp", []string{"0.0.0.0/0"}, "")
 	EnsureIpPermission(t, sgOutput.SecurityGroups[0].IpPermissionsEgress, 3306, 54321, "tcp", []string{"127.0.0.0/8", "10.0.0.0/8"}, "")
 	EnsureIpPermission(t, sgOutput.SecurityGroups[0].IpPermissionsEgress, 3306, 3306, "udp", []string{}, source_security_group)
+	EnsureIpPermission(t, sgOutput.SecurityGroups[0].IpPermissionsEgress, 3306, 3306, "udp", []string{}, security_group_id)
 }
 
 func EnsureIpPermission(
@@ -82,14 +84,19 @@ func EnsureIpPermission(
 			cidrBlocksMatch = len(diff) == 0
 		}
 
-		// securityGroupMatches := false
-		// if securityGroup == "" {
-		// 	securityGroupMatches = true
-		// } else {
-		// 	// securityGroupMatches = securityGroup == aws.StringValue(ipPermission.UserIdGroupPairs[0].GroupId)
-		// }
+		securityGroupMatches := false
+		if securityGroup == "" {
+			securityGroupMatches = true
+		} else {
+			for _, userIdGroupPair := range ipPermission.UserIdGroupPairs {
+				if securityGroup == aws.StringValue(userIdGroupPair.GroupId) {
+					securityGroupMatches = true
+					break
+				}
+			}
+		}
 
-		if fromPortMatch && toPortMatch && protocolMatch && cidrBlocksMatch /*&& securityGroupMatches*/ {
+		if fromPortMatch && toPortMatch && protocolMatch && cidrBlocksMatch && securityGroupMatches {
 			return
 		}
 	}
