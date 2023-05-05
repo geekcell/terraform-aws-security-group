@@ -42,6 +42,7 @@ func TestTerraformFull(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.Equal(t, 1, len(sgOutput.SecurityGroups))
+	// only 3 groups, because port 3306 rules get grouped
 	assert.Equal(t, 3, len(sgOutput.SecurityGroups[0].IpPermissions))
 	assert.Equal(t, 3, len(sgOutput.SecurityGroups[0].IpPermissionsEgress))
 

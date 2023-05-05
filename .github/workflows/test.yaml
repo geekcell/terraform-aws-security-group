@@ -1,0 +1,42 @@
+name: Test
+
+on:
+  pull_request:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: ${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: Terraform Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      #############################
+      # Configure AWS credentials #
+      #############################
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::${{ vars.AWS_TESTING_ACCOUNT_ID }}:role/${{ vars.AWS_TESTING_ROLE }}
+          aws-region: ${{ vars.AWS_TESTING_REGION }}
+          mask-aws-account-id: false
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: 'go.mod'
+
+      - name: Run Tests
+        working-directory: test
+        run: go test -v -timeout 30m
