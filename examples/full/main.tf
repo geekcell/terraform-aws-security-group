@@ -7,7 +7,7 @@ module "vpc" {
 }
 
 module "source_security_group" {
-  source = "github.com/geekcell/terraform-aws-security-group?ref=main"
+  source = "../../"
 
   name   = var.name
   vpc_id = module.vpc.vpc_id

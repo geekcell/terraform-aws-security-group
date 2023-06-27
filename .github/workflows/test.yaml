@@ -1,24 +1,41 @@
-name: Test
+---
+###############
+## Run tests ##
+###############
 
+#
+# Documentation:
+# https://help.github.com/en/articles/workflow-syntax-for-github-actions
+#
+
+name: Test
 on:
   pull_request:
-  workflow_dispatch:
   push:
     branches: [ main ]
+
+##########################
+# Prevent duplicate jobs #
+##########################
+concurrency:
+  group: ${{ github.repository }}
+  cancel-in-progress: false
 
 permissions:
   id-token: write
   contents: read
 
-concurrency:
-  group: ${{ github.repository }}
-  cancel-in-progress: false
-
+###############
+# Run the job #
+###############
 jobs:
-  test:
-    name: Terraform Tests
+  terratest:
+    name: Terratest
     runs-on: ubuntu-latest
     steps:
+      ############################
+      # Checkout the source code #
+      ############################
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -32,11 +49,18 @@ jobs:
           aws-region: ${{ vars.AWS_TESTING_REGION }}
           mask-aws-account-id: false
 
+      ################
+      # Setup Golang #
+      ################
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
           go-version-file: 'go.mod'
 
+      #############
+      # Run tests #
+      #############
       - name: Run Tests
+        timeout-minutes: 30
         working-directory: test
-        run: go test -v -timeout 30m
+        run: go test -v

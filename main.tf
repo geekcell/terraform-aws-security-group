@@ -1,21 +1,7 @@
 /**
  * # Terraform AWS Security Group
  *
- * Introducing the AWS Security Group Terraform Module, a simple and easy-to-use solution for creating and managing
- * your security groups within Amazon Web Services (AWS). This module has been designed with ease of use in mind,
- * providing you with a straightforward way to create and manage your security groups.
- *
- * Our team of experts has years of experience working with AWS security groups and has a deep understanding of the
- * best practices and configurations. By using this Terraform module, you can be sure that your security groups are
- * created and managed in a secure and efficient manner.
- *
- * This module offers a preconfigured solution for creating security groups and the ingress or egress rules that belong
- * to them, saving you time and effort in the process. Whether you're looking to secure your resources or to limit the
- * access to your applications, this module has you covered.
- *
- * So, if you're looking for a convenient and reliable solution for creating and managing your security groups within
- * AWS, look no further than the AWS Security Group Terraform Module. Give it a try and see how easy it is to create
- * and manage your security groups!
+ * Terraform module to create a Security Group with ingress and egress rules in one go.
  */
 resource "aws_security_group" "main" {
   #bridgecrew:skip=BC_AWS_NETWORKING_51:This module create Security Groups only. The attachment has to be done in the parent module.
