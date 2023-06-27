@@ -1,5 +1,5 @@
 <!-- BEGIN_TF_DOCS -->
-[![Geek Cell GmbH](https://raw.githubusercontent.com/geekcell/template-terraform-module/main/docs/assets/logo.svg)](https://www.geekcell.io/)
+[![Geek Cell GmbH](https://raw.githubusercontent.com/geekcell/.github/main/geekcell-github-banner.png)](https://www.geekcell.io/)
 
 ### Code Quality
 [![License](https://img.shields.io/github/license/geekcell/terraform-aws-security-group)](https://github.com/geekcell/terraform-aws-security-group/blob/master/LICENSE)
@@ -7,6 +7,7 @@
 [![Release](https://github.com/geekcell/terraform-aws-security-group/actions/workflows/release.yaml/badge.svg)](https://github.com/geekcell/terraform-aws-security-group/actions/workflows/release.yaml)
 [![Validate](https://github.com/geekcell/terraform-aws-security-group/actions/workflows/validate.yaml/badge.svg)](https://github.com/geekcell/terraform-aws-security-group/actions/workflows/validate.yaml)
 [![Lint](https://github.com/geekcell/terraform-aws-security-group/actions/workflows/linter.yaml/badge.svg)](https://github.com/geekcell/terraform-aws-security-group/actions/workflows/linter.yaml)
+[![Test](https://github.com/geekcell/terraform-aws-security-group/actions/workflows/test.yaml/badge.svg)](https://github.com/geekcell/terraform-aws-security-group/actions/workflows/test.yaml)
 
 ### Security
 [![Infrastructure Tests](https://www.bridgecrew.cloud/badges/github/geekcell/terraform-aws-security-group/general)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=geekcell%2Fterraform-aws-security-group&benchmark=INFRASTRUCTURE+SECURITY)
@@ -35,21 +36,7 @@
 
 # Terraform AWS Security Group
 
-Introducing the AWS Security Group Terraform Module, a simple and easy-to-use solution for creating and managing
-your security groups within Amazon Web Services (AWS). This module has been designed with ease of use in mind,
-providing you with a straightforward way to create and manage your security groups.
-
-Our team of experts has years of experience working with AWS security groups and has a deep understanding of the
-best practices and configurations. By using this Terraform module, you can be sure that your security groups are
-created and managed in a secure and efficient manner.
-
-This module offers a preconfigured solution for creating security groups and the ingress or egress rules that belong
-to them, saving you time and effort in the process. Whether you're looking to secure your resources or to limit the
-access to your applications, this module has you covered.
-
-So, if you're looking for a convenient and reliable solution for creating and managing your security groups within
-AWS, look no further than the AWS Security Group Terraform Module. Give it a try and see how easy it is to create
-and manage your security groups!
+Terraform module to create a Security Group with ingress and egress rules in one go.
 
 ## Inputs
 
@@ -74,13 +61,13 @@ and manage your security groups!
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.36 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.36, < 5.0 |
 
 ## Resources
 
-- resource.aws_security_group.main (main.tf#20)
-- resource.aws_security_group_rule.main_egress (main.tf#48)
-- resource.aws_security_group_rule.main_ingress (main.tf#32)
+- resource.aws_security_group.main (main.tf#6)
+- resource.aws_security_group_rule.main_egress (main.tf#34)
+- resource.aws_security_group_rule.main_ingress (main.tf#18)
 
 # Examples
 ### Full
@@ -94,7 +81,7 @@ module "vpc" {
 }
 
 module "source_security_group" {
-  source = "github.com/geekcell/terraform-aws-security-group?ref=main"
+  source = "../../"
 
   name   = var.name
   vpc_id = module.vpc.vpc_id
