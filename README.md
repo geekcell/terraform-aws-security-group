@@ -74,7 +74,7 @@ Terraform module to create a Security Group with ingress and egress rules in one
 ```hcl
 module "vpc" {
   source  = "registry.terraform.io/terraform-aws-modules/vpc/aws"
-  version = "~> 3.19"
+  version = "~> 5.0.0"
 
   name = "${var.name}-main"
   cidr = "10.100.0.0/16"
