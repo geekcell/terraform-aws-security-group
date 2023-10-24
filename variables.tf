@@ -22,7 +22,7 @@ variable "tags" {
   type        = map(any)
 }
 
-## SG
+## Security Group
 variable "vpc_id" {
   description = "The VPC ID where resources are created."
   type        = string
@@ -37,7 +37,7 @@ variable "revoke_rules_on_delete" {
 variable "ingress_rules" {
   description = "Ingress rules to add to the Security Group. See examples for usage."
   default     = []
-  type = list(object({
+  type        = list(object({
     protocol    = string
     description = optional(string)
 
@@ -46,6 +46,7 @@ variable "ingress_rules" {
     from_port = optional(number)
 
     cidr_blocks              = optional(list(string))
+    prefix_list_ids          = optional(list(string))
     source_security_group_id = optional(string)
 
     self = optional(bool)
@@ -82,7 +83,7 @@ variable "ingress_rules" {
 variable "egress_rules" {
   description = "Egress rules to add to the Security Group. See examples for usage."
   default     = []
-  type = list(object({
+  type        = list(object({
     protocol    = string
     description = optional(string)
 
@@ -91,6 +92,7 @@ variable "egress_rules" {
     from_port = optional(number)
 
     cidr_blocks              = optional(list(string))
+    prefix_list_ids          = optional(list(string))
     source_security_group_id = optional(string)
 
     self = optional(bool)
@@ -100,9 +102,9 @@ variable "egress_rules" {
     condition = alltrue([
       for rule in var.egress_rules :
       false
-      if rule.cidr_blocks != null && rule.source_security_group_id != null
+      if rule.cidr_blocks != null && rule.source_security_group_id != null && rule.prefix_list_ids != null
     ])
-    error_message = "A rule can either have 'cidr_blocks' or 'source_security_group_id' but not both."
+    error_message = "A rule can either have 'cidr_blocks', 'prefix_list_ids' or 'source_security_group_id'."
   }
 
   validation {
@@ -118,8 +120,8 @@ variable "egress_rules" {
     condition = alltrue([
       for rule in var.egress_rules :
       false
-      if rule.self != null && (rule.cidr_blocks != null || rule.source_security_group_id != null)
+      if rule.self != null && (rule.cidr_blocks != null || rule.source_security_group_id != null || rule.prefix_list_ids != null)
     ])
-    error_message = "A rule can either have 'self' or 'cidr_blocks'|'source_security_group_id' but not both."
+    error_message = "A rule can either have 'self' or 'cidr_blocks'|'prefix_list_ids'|'source_security_group_id' but not both."
   }
 }

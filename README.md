@@ -43,8 +43,8 @@ Terraform module to create a Security Group with ingress and egress rules in one
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_description"></a> [description](#input\_description) | Description of the Security Group. | `string` | `null` | no |
-| <a name="input_egress_rules"></a> [egress\_rules](#input\_egress\_rules) | Egress rules to add to the Security Group. See examples for usage. | <pre>list(object({<br>    protocol    = string<br>    description = optional(string)<br><br>    port      = optional(number)<br>    to_port   = optional(number)<br>    from_port = optional(number)<br><br>    cidr_blocks              = optional(list(string))<br>    source_security_group_id = optional(string)<br><br>    self = optional(bool)<br>  }))</pre> | `[]` | no |
-| <a name="input_ingress_rules"></a> [ingress\_rules](#input\_ingress\_rules) | Ingress rules to add to the Security Group. See examples for usage. | <pre>list(object({<br>    protocol    = string<br>    description = optional(string)<br><br>    port      = optional(number)<br>    to_port   = optional(number)<br>    from_port = optional(number)<br><br>    cidr_blocks              = optional(list(string))<br>    source_security_group_id = optional(string)<br><br>    self = optional(bool)<br>  }))</pre> | `[]` | no |
+| <a name="input_egress_rules"></a> [egress\_rules](#input\_egress\_rules) | Egress rules to add to the Security Group. See examples for usage. | <pre>list(object({<br>    protocol    = string<br>    description = optional(string)<br><br>    port      = optional(number)<br>    to_port   = optional(number)<br>    from_port = optional(number)<br><br>    cidr_blocks              = optional(list(string))<br>    prefix_list_ids          = optional(list(string))<br>    source_security_group_id = optional(string)<br><br>    self = optional(bool)<br>  }))</pre> | `[]` | no |
+| <a name="input_ingress_rules"></a> [ingress\_rules](#input\_ingress\_rules) | Ingress rules to add to the Security Group. See examples for usage. | <pre>list(object({<br>    protocol    = string<br>    description = optional(string)<br><br>    port      = optional(number)<br>    to_port   = optional(number)<br>    from_port = optional(number)<br><br>    cidr_blocks              = optional(list(string))<br>    prefix_list_ids          = optional(list(string))<br>    source_security_group_id = optional(string)<br><br>    self = optional(bool)<br>  }))</pre> | `[]` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the Security Group and Prefix. | `string` | n/a | yes |
 | <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Whether to use the name as prefix or regular name. | `bool` | `true` | no |
 | <a name="input_revoke_rules_on_delete"></a> [revoke\_rules\_on\_delete](#input\_revoke\_rules\_on\_delete) | Instruct Terraform to revoke all of the Security Groups attached ingress and egress rules before deleting the rule itself. This is normally not needed. | `bool` | `false` | no |
@@ -66,7 +66,7 @@ Terraform module to create a Security Group with ingress and egress rules in one
 ## Resources
 
 - resource.aws_security_group.main (main.tf#6)
-- resource.aws_security_group_rule.main_egress (main.tf#34)
+- resource.aws_security_group_rule.main_egress (main.tf#35)
 - resource.aws_security_group_rule.main_ingress (main.tf#18)
 
 # Examples
