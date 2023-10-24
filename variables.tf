@@ -37,7 +37,7 @@ variable "revoke_rules_on_delete" {
 variable "ingress_rules" {
   description = "Ingress rules to add to the Security Group. See examples for usage."
   default     = []
-  type        = list(object({
+  type = list(object({
     protocol    = string
     description = optional(string)
 
@@ -83,7 +83,7 @@ variable "ingress_rules" {
 variable "egress_rules" {
   description = "Egress rules to add to the Security Group. See examples for usage."
   default     = []
-  type        = list(object({
+  type = list(object({
     protocol    = string
     description = optional(string)
 

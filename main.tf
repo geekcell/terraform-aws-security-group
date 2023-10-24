@@ -16,7 +16,7 @@ resource "aws_security_group" "main" {
 }
 
 resource "aws_security_group_rule" "main_ingress" {
-  for_each = {for index, rule in var.ingress_rules : index => rule}
+  for_each = { for index, rule in var.ingress_rules : index => rule }
 
   description       = coalesce(each.value.description, "Allow ingress for ${each.value.protocol}-${coalesce(each.value.port, each.value.from_port)}")
   security_group_id = aws_security_group.main.id
@@ -33,7 +33,7 @@ resource "aws_security_group_rule" "main_ingress" {
 }
 
 resource "aws_security_group_rule" "main_egress" {
-  for_each = {for index, rule in var.egress_rules : index => rule}
+  for_each = { for index, rule in var.egress_rules : index => rule }
 
   description       = coalesce(each.value.description, "Allow egress for ${each.value.protocol}-${coalesce(each.value.port, each.value.from_port)}")
   security_group_id = aws_security_group.main.id
