@@ -29,8 +29,8 @@ permissions:
 # Run the job #
 ###############
 jobs:
-  terratest:
-    name: Terratest
+  terraform-test:
+    name: Terraform Test
     runs-on: ubuntu-latest
     steps:
       ############################
@@ -49,18 +49,9 @@ jobs:
           aws-region: ${{ vars.AWS_TESTING_REGION }}
           mask-aws-account-id: false
 
-      ################
-      # Setup Golang #
-      ################
-      - name: Set up Go
-        uses: actions/setup-go@v4
-        with:
-          go-version-file: 'go.mod'
-
       #############
       # Run tests #
       #############
       - name: Run Tests
         timeout-minutes: 30
-        working-directory: test
-        run: go test -v
+        run: terraform init && terraform test
