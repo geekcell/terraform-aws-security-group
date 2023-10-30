@@ -22,7 +22,7 @@ variable "tags" {
   type        = map(any)
 }
 
-## SG
+## Security Group
 variable "vpc_id" {
   description = "The VPC ID where resources are created."
   type        = string
@@ -46,18 +46,19 @@ variable "ingress_rules" {
     from_port = optional(number)
 
     cidr_blocks              = optional(list(string))
+    prefix_list_ids          = optional(list(string))
     source_security_group_id = optional(string)
-
-    self = optional(bool)
+    self                     = optional(bool)
   }))
 
   validation {
+    # Only one of these can be set. Filter out null values and check if the length is greater than 1.
     condition = alltrue([
       for rule in var.ingress_rules :
       false
-      if rule.cidr_blocks != null && rule.source_security_group_id != null
+      if length([for k, v in [rule.self, rule.cidr_blocks, rule.source_security_group_id, rule.prefix_list_ids] : k if v != null]) > 1
     ])
-    error_message = "A rule can either have 'cidr_blocks' or 'source_security_group_id' but not both."
+    error_message = "A rule can either have 'cidr_blocks', 'prefix_list_ids', 'source_security_group_id' or 'self'."
   }
 
   validation {
@@ -67,15 +68,6 @@ variable "ingress_rules" {
       if rule.port != null && (rule.to_port != null || rule.from_port != null)
     ])
     error_message = "A rule can either have 'port' or 'to_port'|'from_port' but not both."
-  }
-
-  validation {
-    condition = alltrue([
-      for rule in var.ingress_rules :
-      false
-      if rule.self != null && (rule.cidr_blocks != null || rule.source_security_group_id != null)
-    ])
-    error_message = "A rule can either have 'self' or 'cidr_blocks'|'source_security_group_id' but not both."
   }
 }
 
@@ -91,18 +83,19 @@ variable "egress_rules" {
     from_port = optional(number)
 
     cidr_blocks              = optional(list(string))
+    prefix_list_ids          = optional(list(string))
     source_security_group_id = optional(string)
-
-    self = optional(bool)
+    self                     = optional(bool)
   }))
 
   validation {
+    # Only one of these can be set. Filter out null values and check if the length is greater than 1.
     condition = alltrue([
       for rule in var.egress_rules :
       false
-      if rule.cidr_blocks != null && rule.source_security_group_id != null
+      if length([for k, v in [rule.self, rule.cidr_blocks, rule.source_security_group_id, rule.prefix_list_ids] : k if v != null]) > 1
     ])
-    error_message = "A rule can either have 'cidr_blocks' or 'source_security_group_id' but not both."
+    error_message = "A rule can either have 'cidr_blocks', 'prefix_list_ids', 'source_security_group_id' or 'self'."
   }
 
   validation {
@@ -112,14 +105,5 @@ variable "egress_rules" {
       if rule.port != null && (rule.to_port != null || rule.from_port != null)
     ])
     error_message = "A rule can either have 'port' or 'to_port'|'from_port' but not both."
-  }
-
-  validation {
-    condition = alltrue([
-      for rule in var.egress_rules :
-      false
-      if rule.self != null && (rule.cidr_blocks != null || rule.source_security_group_id != null)
-    ])
-    error_message = "A rule can either have 'self' or 'cidr_blocks'|'source_security_group_id' but not both."
   }
 }

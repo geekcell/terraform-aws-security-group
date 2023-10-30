@@ -28,6 +28,7 @@ resource "aws_security_group_rule" "main_ingress" {
 
   self                     = each.value.self
   cidr_blocks              = each.value.cidr_blocks
+  prefix_list_ids          = each.value.prefix_list_ids
   source_security_group_id = each.value.source_security_group_id
 }
 
@@ -44,5 +45,6 @@ resource "aws_security_group_rule" "main_egress" {
 
   self                     = each.value.self
   cidr_blocks              = each.value.cidr_blocks
+  prefix_list_ids          = each.value.prefix_list_ids
   source_security_group_id = each.value.source_security_group_id
 }

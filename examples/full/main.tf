@@ -13,6 +13,17 @@ module "source_security_group" {
   vpc_id = module.vpc.vpc_id
 }
 
+resource "aws_ec2_managed_prefix_list" "test" {
+  name           = "All VPC CIDR-s"
+  address_family = "IPv4"
+  max_entries    = 5
+
+  entry {
+    cidr        = "10.100.0.0/16"
+    description = "Primary"
+  }
+}
+
 module "full" {
   source = "../../"
 
@@ -79,6 +90,13 @@ module "full" {
       port     = 3306
       protocol = "udp"
       self     = true
+    },
+
+    # Using prefix list
+    {
+      port            = 443
+      protocol        = "tcp"
+      prefix_list_ids = [aws_ec2_managed_prefix_list.test.id]
     }
   ]
 }
